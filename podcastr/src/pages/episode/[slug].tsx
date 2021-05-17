@@ -55,9 +55,32 @@ export default function Episode( { episode }: EpisodeProps ){
     )
 }
 
+//Uma pagina estatica, dinamica
 export const getStaticPaths: GetStaticPaths = async () => {
+    //Pré carregando dados
+    const { data } = await api.get('episodes', {
+        params:{
+            _limit: 2,
+            _sort: 'published_at',
+            _order: 'desc'
+        }
+    })
+
+    const paths = data.map(episode => {
+        return {
+            params: {
+                slug: episode.id
+            }
+        }
+    })
+
+
     return{
-        paths: [],
+        //Path determina oq será carregado de inicio na Build
+        paths,
+        //Fallback false => 404 se não foi determinado no path
+        //Fallback true => Chamada pelo lado do client
+        //Fallback 'blocking' => Pesssoa só sera encaminhada para tela quando tiver sido carregado (Melhor em SEO)
         fallback: 'blocking'
     }
 }
