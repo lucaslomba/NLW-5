@@ -8,6 +8,7 @@ import { PlayerContext } from '../../contexts/PlayerContext';
 import styles from './episode.module.scss'
 import Link from 'next/link'
 import { useContext } from 'react'
+import Head from 'next/head';
 
 type Episode = {
     id: string;
@@ -30,6 +31,10 @@ export default function Episode( { episode }: EpisodeProps ){
 
     return(
         <div className={styles.allInfo}>
+            <Head>
+                <title>{episode.title} | Podcastr</title>
+            </Head>
+
             <div className={styles.episode}>
                 <div className={styles.thumbnailContainer}>
                     <Link href="/">
